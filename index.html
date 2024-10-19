@@ -3,51 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive World Map</title>
+    <title>World Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <style>
-        #map-container {
-            width: 100%;
+        #map {
             height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        svg {
-            width: 90%;
-            height: auto;
-        }
-        path {
-            stroke: #000;
-            stroke-width: 0.5;
-        }
-        path:hover {
-            fill: #ff0;
-            cursor: pointer;
+            width: 100%;
         }
     </style>
 </head>
 <body>
-    <div id="map-container">
-        <!-- Добавьте сюда вашу SVG карту -->
-        <svg>
-            <!-- Пример одного региона -->
-            <path d="M150 0 L75 200 L225 200 Z" fill="red"></path>
-        </svg>
-    </div>
+    <div id="map"></div>
 
-    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script>
-        const svg = d3.select("svg");
-        svg.selectAll("path")
-           .on("mouseover", function() {
-               d3.select(this).style("fill", "orange");
-           })
-           .on("mouseout", function() {
-               d3.select(this).style("fill", "red");
-           })
-           .on("click", function() {
-               alert("You clicked on a country!");
-           });
+        var map = L.map('map', {
+            minZoom: -2,  // Чтобы можно было полностью отобразить вашу карту
+            maxZoom: 2,
+            center: [0, 0],  // Начальная точка (координаты мира)
+            zoom: 0
+        });
+
+        // Добавление вашей карты в качестве основного слоя
+        var imageUrl = 'путь_к_вашему_png_файлу',
+            imageBounds = [[-90, -180], [90, 180]];  // Границы карты (примерно для карты мира)
+
+        L.imageOverlay(imageUrl, imageBounds).addTo(map);
+
+        // Пример добавления маркера
+        L.marker([0, 0]).addTo(map)
+            .bindPopup('Центр мира!').openPopup();
     </script>
 </body>
 </html>
